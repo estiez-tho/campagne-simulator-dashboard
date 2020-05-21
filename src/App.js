@@ -47,13 +47,24 @@ function App() {
       const newRankedPlayers = await http.get("/dashboard");
       if (newRankedPlayers) setPlayerList(newRankedPlayers.data);
     } catch (err) {
-      alert(err.message);
+      alert("Connexion au serveur impossible");
     }
+  };
+
+  const updateTimer = async () => {
+    return setInterval(() => {
+      getRankedPlayers();
+    }, 5000);
   };
 
   useEffect(() => {
     getRankedPlayers();
   }, []);
+
+  useEffect(() => {
+    const timer = updateTimer();
+    return () => clearInterval(timer);
+  });
 
   return (
     <>
